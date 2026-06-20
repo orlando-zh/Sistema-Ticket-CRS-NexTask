@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from '@inertiajs/react';
 import { AlertCircle, Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { url } from '@/lib/url';
 
 export default function AgentTicketsTable({
     displayedTickets,
@@ -162,7 +163,7 @@ export default function AgentTicketsTable({
 
                                     <td className="flex min-w-[160px] flex-col items-center gap-3 px-4 py-4">
                                         <Link
-                                            href={`/agent/ticket/${row.id}`}
+                                            href={url(`/agent/ticket/${row.id}`)}
                                             className="w-full rounded bg-blue-500 px-4 py-3 text-center text-xs font-bold text-white shadow-sm transition-colors hover:bg-blue-600"
                                         >
                                             Ver Detalles
