@@ -211,7 +211,7 @@ class TecnicoService
                 'total_tickets_resueltos' => $totalResueltos,
                 'total_tickets_criticos' => Ticket::where('assigned_user', $agent->id)
                     ->whereIn('status_id', $activeStatuses)
-                    ->whereHas('priority', fn($q) => $q->where('name', 'like', '%Crític%'))
+                    ->whereHas('priority', fn($q) => $q->where('name', 'like', '%Urgente%'))
                     ->count(),
                 'prioridades' => $priorityDistribution
             ]
@@ -641,7 +641,7 @@ class TecnicoService
                 'total_tickets_resueltos' => $totalResueltos,
                 'total_tickets_criticos' => Ticket::where('assigned_user', $agent->id)
                     ->whereIn('status_id', $statusEnProcesoIds)
-                    ->whereHas('priority', fn($q) => $q->where('name', 'like', '%Crític%'))
+                    ->whereHas('priority', fn($q) => $q->where('name', 'like', '%Urgente%'))
                     ->count(),
             ]
         ];

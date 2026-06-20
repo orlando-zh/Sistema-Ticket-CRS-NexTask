@@ -286,7 +286,7 @@ export default function AgentDashboard() {
                             <div className="text-xl font-bold">{stats.total_tickets_resueltos}</div>
                         </div>
                         <div className="flex flex-col justify-center rounded-lg border border-red-100 bg-red-50 p-4">
-                            <div className="mb-1 text-xs font-semibold text-red-700 uppercase">Críticos</div>
+                            <div className="mb-1 text-xs font-semibold text-red-700 uppercase">Urgentes</div>
                             <div className="text-xl font-bold text-red-800">{stats.total_tickets_criticos || 0}</div>
                         </div>
                     </div>
@@ -297,7 +297,7 @@ export default function AgentDashboard() {
                             const priorityData = stats.prioridades || {};
                             const totalTickets = stats.total_tickets_cola || 0;
                             const priorities = [
-                                { name: 'Crítica', color: 'bg-red-700', count: priorityData['Crítica'] || 0 },
+                                { name: 'Urgente', color: 'bg-red-700', count: priorityData['Urgente'] || 0 },
                                 { name: 'Alta', color: 'bg-red-500', count: priorityData['Alta'] || 0 },
                                 { name: 'Media', color: 'bg-yellow-400', count: priorityData['Media'] || 0 },
                                 { name: 'Baja', color: 'bg-blue-500', count: priorityData['Baja'] || 0 },

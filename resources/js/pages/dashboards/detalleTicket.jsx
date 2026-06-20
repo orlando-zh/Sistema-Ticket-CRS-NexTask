@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { ArrowLeft, Paperclip, Eye, Download, FileText, Image, Video, Activity, AlertCircle } from 'lucide-react';
 import AppLayout from '@/layouts/app-layout';
+import { url } from '@/lib/url';
 
 export default function TicketDetails({ id }) {
     const [ticket, setTicket] = useState(null);
@@ -26,8 +27,8 @@ export default function TicketDetails({ id }) {
     const AttachmentPreview = ({ adj }) => {
         const isImage = adj.type?.startsWith('image/');
         const isVideo = adj.type?.startsWith('video/');
-        const viewUrl = `/storage/${adj.path}`;
-        const downloadUrl = `/agent/descargar-adjunto/${adj.id}`;
+        const viewUrl = url(`/storage/${adj.path}`);
+        const downloadUrl = url(`/agent/descargar-adjunto/${adj.id}`);
 
         if (isImage) {
             return (
@@ -293,7 +294,7 @@ export default function TicketDetails({ id }) {
                     {/* Back button */}
                     <div className="pt-2">
                         <Link
-                            href="/dashboard"
+                            href={url('/dashboard')}
                             className="inline-flex items-center gap-2 px-5 py-2 border border-gray-300 rounded-xl text-sm font-bold bg-white text-black hover:bg-gray-50 transition-colors shadow-sm"
                         >
                             <ArrowLeft className="w-4 h-4" /> Volver
