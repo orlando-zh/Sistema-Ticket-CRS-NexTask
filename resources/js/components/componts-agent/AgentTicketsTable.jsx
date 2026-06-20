@@ -125,7 +125,7 @@ export default function AgentTicketsTable({
                                             const priority = row.prioridad || row.priority?.name || 'N/A';
                                             const priorityLower = priority.toLowerCase();
 
-                                            if (priorityLower === 'alta' || priorityLower === 'crítica' || priorityLower === 'critica') {
+                                            if (priorityLower === 'alta' || priorityLower === 'urgente') {
                                                 return (
                                                     <span className="inline-flex items-center rounded-full border border-red-200 bg-red-100 px-2.5 py-1 text-xs font-bold text-red-800">
                                                         <span className="mr-1.5 h-2 w-2 animate-pulse rounded-full bg-red-500"></span>
