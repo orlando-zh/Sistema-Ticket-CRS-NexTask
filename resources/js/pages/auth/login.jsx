@@ -1,7 +1,6 @@
 import { Head, useForm } from '@inertiajs/react';
 import { LoaderCircle, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import InputError from '@/components/input-error';
-import TextLink from '@/components/text-link';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useState, useEffect } from 'react';
 
@@ -68,19 +67,21 @@ export default function Login({ status, canResetPassword }) {
 
             <div className="font-dm min-h-screen flex items-center justify-center bg-transparent p-4">
 
-                <div className="flex w-full max-w-[820px] min-h-[480px] rounded-[22px] overflow-hidden bg-white"
-                    style={{ boxShadow: '0 35px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04)' }}>
+                {/* MODIFICACIÓN 1: flex-col para móvil y md:flex-row para PC */}
+                <div className="flex flex-col-reverse md:flex-row w-full max-w-[820px] min-h-[480px] rounded-[22px] overflow-hidden bg-white"
+                     style={{ boxShadow: '0 35px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04)' }}>
 
-                    {/* ───────── LEFT ───────── */}
-                    <div className="flex-1 bg-white flex flex-col justify-center px-11 py-10 relative">
+                    {/* ───────── LEFT (FORMULARIO) ───────── */}
+                    {/* MODIFICACIÓN 2: Padding adaptable (px-6 en móvil, px-11 en PC) */}
+                    <div className="flex-1 bg-white flex flex-col justify-center px-6 py-10 md:px-11 relative">
 
                         <div className="absolute left-0 top-0 w-[5px] h-full bg-[#DA291C]" />
 
-                        <h1 className="font-bebas text-[2.2rem] text-[#111] tracking-wide mb-1">
+                        <h1 className="font-bebas text-[2.2rem] text-[#111] tracking-wide mb-1 text-center md:text-left">
                             Iniciar Sesión
                         </h1>
 
-                        <p className="text-[0.78rem] text-[#777] mb-7">
+                        <p className="text-[0.78rem] text-[#777] mb-7 text-center md:text-left">
                             Ingresa tus credenciales para continuar
                         </p>
 
@@ -91,7 +92,7 @@ export default function Login({ status, canResetPassword }) {
                                 {/* EMAIL */}
                                 <div>
                                     <label htmlFor="email"
-                                        className="block text-[0.68rem] font-bold uppercase tracking-[1.2px] text-[#444] mb-[0.35rem]">
+                                           className="block text-[0.68rem] font-bold uppercase tracking-[1.2px] text-[#444] mb-[0.35rem]">
                                         Correo electrónico
                                     </label>
                                     <div className="relative">
@@ -122,7 +123,7 @@ export default function Login({ status, canResetPassword }) {
                                 {/* PASSWORD */}
                                 <div>
                                     <label htmlFor="password"
-                                        className="block text-[0.68rem] font-bold uppercase tracking-[1.2px] text-[#444] mb-[0.35rem]">
+                                           className="block text-[0.68rem] font-bold uppercase tracking-[1.2px] text-[#444] mb-[0.35rem]">
                                         Contraseña
                                     </label>
                                     <div className="relative">
@@ -171,7 +172,7 @@ export default function Login({ status, canResetPassword }) {
                                 className="font-bebas w-full py-[0.82rem] border-none rounded-xl bg-[#DA291C] text-white text-[1rem] tracking-[2px] cursor-pointer flex items-center justify-center gap-[0.45rem] disabled:opacity-70 disabled:cursor-not-allowed"
                                 style={{ boxShadow: '0 10px 25px rgba(218,41,28,0.30)' }}
                             >
-                                {processing && <LoaderCircle size={18} />}
+                                {processing && <LoaderCircle size={18} className="animate-spin" />}
                                 {isThrottled ? `Espera ${throttleSeconds}s` : 'Iniciar sesión'}
                             </button>
 
@@ -184,27 +185,29 @@ export default function Login({ status, canResetPassword }) {
                         )}
                     </div>
 
-                    {/* ───────── RIGHT ───────── */}
-                    <div className="w-80 flex flex-col items-center justify-center p-8 relative overflow-hidden"
-                        style={{ background: 'linear-gradient(180deg, #DA291C 0%, #b6160d 100%)' }}>
+                    {/* ───────── RIGHT (BANNER ROJO) ───────── */}
+                    {/* MODIFICACIÓN 3: w-full en móvil y w-80 en PC */}
+                    <div className="w-full md:w-80 flex flex-col items-center justify-center p-8 relative overflow-hidden py-10 md:py-8"
+                         style={{ background: 'linear-gradient(180deg, #DA291C 0%, #b6160d 100%)' }}>
 
                         <div className="absolute w-[260px] h-[260px] rounded-full -top-20 -right-20"
-                            style={{ background: 'rgba(255,255,255,0.06)' }} />
+                             style={{ background: 'rgba(255,255,255,0.06)' }} />
                         <div className="absolute w-[180px] h-[180px] rounded-full -bottom-12 -left-12"
-                            style={{ background: 'rgba(0,0,0,0.08)' }} />
+                             style={{ background: 'rgba(0,0,0,0.08)' }} />
 
                         {/* logo card */}
                         <div className="relative z-10 bg-white rounded-[18px] p-4 border-4 border-[#111]"
-                            style={{ boxShadow: '0 25px 50px rgba(0,0,0,0.28), 0 0 0 1px rgba(255,255,255,0.1)' }}>
+                             style={{ boxShadow: '0 25px 50px rgba(0,0,0,0.28), 0 0 0 1px rgba(255,255,255,0.1)' }}>
+                            {/* MODIFICACIÓN 4: Logo más pequeño en móvil (w-[140px]) y grande en PC (md:w-[220px]) */}
                             <img
                                 src="/img_cruzroja.webp"
                                 alt="Cruz Roja Salvadoreña"
-                                className="w-[220px] h-auto block object-contain select-none pointer-events-none"
+                                className="w-[140px] md:w-[220px] h-auto block object-contain select-none pointer-events-none"
                                 draggable={false}
                             />
                         </div>
 
-                        <p className="relative z-10 mt-6 text-white/80 text-[0.72rem] uppercase tracking-[2px] font-light">
+                        <p className="relative z-10 mt-6 text-white/80 text-[0.72rem] uppercase tracking-[2px] font-light text-center">
                             Sistema de Gestión
                         </p>
                     </div>
