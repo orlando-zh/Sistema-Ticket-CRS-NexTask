@@ -1,113 +1,62 @@
 import { NavMain } from '@/components/nav-main';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { Link, usePage } from '@inertiajs/react';
-import { Building, Clock, Component, HelpCircle, Layers, LayoutGrid, ListChecks, Network, Star, Ticket, Users } from 'lucide-react';
-
 import AppLogo from './app-logo';
+import {
+    LayoutGrid,
+    Folder,
+    ClipboardList,
+    BookOpen,
+    Settings,
+    FileText,
+    AlertTriangle,
+    Users,
+    History,
+    Ticket,
+    PlusCircle,
+    List,
+    HelpCircle,
+    Network,
+    Layers,
+    Building,
+    Star,
+    Component,
+} from 'lucide-react';
 
-const mainNavItems = [
-    {
-        title: 'Dashboards',
-        icon: LayoutGrid,
-        children: [
-            {
-                title: 'General',
-                url: '/dashboard',
-                icon: LayoutGrid,
-            },
-            {
-                title: 'Rating Técnicos',
-                url: '/ratings-dashboard',
-                icon: Star,
-                role: 'superadmin',
-            },
-        ],
-    },
-    {
-        title: 'Mis Tickets',
-        url: '/tickets', // Ruta típica para tickets del usuario
-        icon: Ticket,
-        permission: 'ver tickets', // Ícono de ticket
-    },
-    {
-        title: 'FAQs',
-        url: '/faqs', // Ruta para preguntas frecuentes
-        icon: HelpCircle, // Ícono de ayuda
-    },
-    {
-        title: 'Ticket',
-        icon: ListChecks,
-        children: [
-            {
-                title: 'Prioridades',
-                url: '/priorities',
-                icon: ListChecks,
-                permission: 'ver prioridades',
-            },
-            {
-                title: 'Planes SLA',
-                url: '/sla-plans',
-                icon: Clock,
-                permission: 'ver sla plans',
-            },
-        ],
-    },
-    {
-        title: 'Usuarios',
-        url: '/users',
-        icon: Users,
-        permission: 'manage_users',
-    },
-
-    // ==========================================
-    // ESTRUCTURA ORGANIZACIONAL
-    // ==========================================
-    {
-        title: 'Estructura',
-        icon: Network,
-        children: [
-            {
-                title: 'Áreas',
-                url: '/areas',
-                icon: Layers,
-                permission: 'manage_areas',
-            },
-            {
-                title: 'Departamentos',
-                url: '/departments',
-                icon: Building,
-                permission: 'manage_departments',
-            },
-            {
-                title: 'Divisiones',
-                url: '/divisions',
-                icon: Component,
-                permission: 'manage_divisions',
-            },
-        ],
-    },
-];
-
-function filterNavItems(items, hasPermission, userRoles) {
-    return items
-        .filter((item) => {
-            const permissionMatch = !item.permission || hasPermission(item.permission);
-            const roleMatch = !item.role || userRoles.includes(item.role);
-            return permissionMatch && roleMatch;
-        })
-        .map((item) => (item.children ? { ...item, children: filterNavItems(item.children, hasPermission, userRoles) } : item))
-        .filter((item) => !item.children || item.children.length > 0);
-}
+// 1. Diccionario de iconos (Igual que en el header de escritorio)
+const ICONS = {
+    LayoutGrid, Folder, ClipboardList, BookOpen, Settings, FileText,
+    AlertTriangle, Users, History, Ticket, PlusCircle, List,
+    HelpCircle, Network, Layers, Building, Star, Component,
+};
 
 export function AppSidebar() {
-    const { auth } = usePage().props;
-    const userPermissions = auth?.user?.permissions || [];
-    const userRoles = auth?.user?.roles || [];
-    const hasPermission = (perm) => userPermissions.includes(perm);
-    const filteredNavItems = filterNavItems(mainNavItems, hasPermission, userRoles);
+    // 2. Traemos la navegación perfecta que armamos en Laravel
+    const { navigation = [] } = usePage().props;
+
+    // 3. Formateamos la data del servidor para que el componente NavMain la entienda
+    const formattedNavItems = navigation.map((item) => {
+        return {
+            title: item.title,
+            url: item.url,
+            icon: item.icon ? ICONS[item.icon] : null,
+            // Dependiendo de cómo esté construido tu NavMain de Shadcn,
+            // a veces usa "items" y a veces usa "children" para los submenús.
+            // Mapeamos ambas por compatibilidad.
+            items: item.items ? item.items.map(sub => ({
+                title: sub.title,
+                url: sub.url,
+                icon: sub.icon ? ICONS[sub.icon] : null,
+            })) : undefined,
+            children: item.items ? item.items.map(sub => ({
+                title: sub.title,
+                url: sub.url,
+                icon: sub.icon ? ICONS[sub.icon] : null,
+            })) : undefined,
+        };
+    });
 
     return (
-        /* Agregamos el contenedor div con "md:hidden" para que Shadcn no renderice el sidebar en escritorio */
         <div className="md:hidden">
             <Sidebar collapsible="icon" variant="inset">
                 <SidebarHeader>
@@ -123,13 +72,9 @@ export function AppSidebar() {
                 </SidebarHeader>
 
                 <SidebarContent>
-                    <NavMain items={filteredNavItems} />
+                    {/* 4. Le pasamos la navegación dinámica */}
+                    <NavMain items={formattedNavItems} />
                 </SidebarContent>
-
-                {/* Opcional: si quieres agregar el footer con el usuario */}
-                {/* <SidebarFooter>
-                    <NavUser />
-                </SidebarFooter> */}
             </Sidebar>
         </div>
     );
